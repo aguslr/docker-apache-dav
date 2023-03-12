@@ -1,0 +1,19 @@
+version: '2.4'
+
+services:
+  apache:
+    container_name: apache-dav
+    build:
+      context: .
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+    environment:
+      - HTTP_USER=bob
+      - HTTP_PASS=123456
+    ports:
+      - 80:80/tcp
+    healthcheck:
+      test: curl -sfo /dev/null -u 'guest:' 'http://127.0.0.1:80'
+      interval: 1m
+      timeout: 3s
