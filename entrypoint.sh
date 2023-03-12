@@ -4,13 +4,20 @@
 if [ "${HTTP_USER:=httpuser}" ] && ! grep -s "^${HTTP_USER}" /etc/apache2/htpasswd; then
 	# Generate random password
 	[ -z "${HTTP_PASS}" ] && \
-		HTTP_PASS=$(date +%s | sha256sum | base64 | head -c 32) && \
-		printf 'Password for %s is %s\n' "${HTTP_USER}" "${HTTP_PASS}"
+		HTTP_PASS=$(date +%s | sha256sum | base64 | head -c 32) && gen_pass=1
 	# Add user to password file
 	if [ -f /etc/apache2/htpasswd ]; then
-		printf '%s' "${HTTP_PASS}" | htpasswd -i /etc/apache2/htpasswd "${HTTP_USER}"
+		if printf '%s' "${HTTP_PASS}" \
+			| htpasswd -i /etc/apache2/htpasswd "${HTTP_USER}" && \
+			[ "${gen_pass}" -eq 1 ]; then
+			printf 'Password for %s is %s\n' "${HTTP_USER}" "${HTTP_PASS}"
+		fi
 	else
-		printf '%s' "${HTTP_PASS}" | htpasswd -i -c /etc/apache2/htpasswd "${HTTP_USER}"
+		if printf '%s' "${HTTP_PASS}" \
+			| htpasswd -i -c /etc/apache2/htpasswd "${HTTP_USER}" && \
+			[ "${gen_pass}" -eq 1 ]; then
+			printf 'Password for %s is %s\n' "${HTTP_USER}" "${HTTP_PASS}"
+		fi
 	fi
 	# Add user to admin group
 	if [ -f /etc/apache2/htgroup ]; then
