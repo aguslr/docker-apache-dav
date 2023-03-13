@@ -10,6 +10,7 @@ RUN \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /var/lib/apt/lists/*
 
 RUN \
+  mkdir -p /etc/apache2/dav.d && \
   mkdir -p /var/lib/dav/lockdb && \
   chown www-data:www-data /var/lib/dav/lockdb && \
   sed -i \
@@ -25,7 +26,7 @@ COPY dav.conf /etc/apache2/sites-enabled/000-default.conf
 
 EXPOSE 80/tcp
 
-VOLUME /data
+VOLUME /data /etc/apache2/dav.d
 
 HEALTHCHECK --interval=1m --timeout=3s \
   CMD curl -sfo /dev/null -u 'guest:' 'http://127.0.0.1:80'
