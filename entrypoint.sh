@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Create HTTP user
-if [ "${HTTP_USER:=httpuser}" ] && ! grep -s "^${HTTP_USER}" /etc/apache2/htpasswd; then
+if [ "${HTTP_USER:=httpuser}" ] && ! grep -q -s "^${HTTP_USER}" /etc/apache2/htpasswd; then
 	# Generate random password
 	[ -z "${HTTP_PASS}" ] && \
 		HTTP_PASS=$(date +%s | sha256sum | base64 | head -c 32) && gen_pass=1
