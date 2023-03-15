@@ -11,7 +11,6 @@ RUN \
 
 RUN \
   mkdir -p /etc/apache2/dav.d && \
-  touch /etc/apache2/dav.d/example.conf && \
   mkdir -p /var/lib/dav/lockdb && \
   chown www-data:www-data /var/lib/dav/lockdb && \
   sed -i \
