@@ -1,7 +1,7 @@
 [aguslr/docker-apache-dav][1]
 =============================
 
-[![publish-docker-image](https://github.com/aguslr/docker-apache-dav/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/aguslr/docker-apache-dav/actions/workflows/docker-publish.yml) [![docker-pulls](https://img.shields.io/docker/pulls/aguslr/apache-dav)](https://hub.docker.com/r/aguslr/apache-dav) [![image-size](https://img.shields.io/docker/image-size/aguslr/apache-dav/latest)](https://hub.docker.com/r/aguslr/apache-dav)
+[![docker-pulls](https://img.shields.io/docker/pulls/aguslr/apache-dav)](https://hub.docker.com/r/aguslr/apache-dav) [![image-size](https://img.shields.io/docker/image-size/aguslr/apache-dav/latest)](https://hub.docker.com/r/aguslr/apache-dav)
 
 
 This *Docker* image sets up *Apache*'s [WebDAV][3] inside a docker container.
