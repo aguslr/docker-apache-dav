@@ -20,7 +20,7 @@ To use *docker-apache-dav*, follow these steps:
        docker run -p 80:80 \
          -e HTTP_USER=bob \
          -e HTTP_PASS=123456 \
-         -v ./data:/data \
+         -v "${PWD}"/data:/data \
          docker.io/aguslr/apache-dav:latest
 
 2. Configure your Web browser to connect to your *Apache* server's IP address
@@ -58,8 +58,8 @@ Then we can go ahead and mount it as follows:
     docker run -p 80:80 \
       -e HTTP_USER=bob \
       -e HTTP_PASS=123456 \
-      -v ./data:/data \
-      -v ./custom.conf:/etc/apache2/dav.d/custom.conf \
+      -v "${PWD}"/data:/data \
+      -v "${PWD}"/custom.conf:/etc/apache2/dav.d/custom.conf \
       docker.io/aguslr/apache-dav:latest
 
 
