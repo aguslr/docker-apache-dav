@@ -21,8 +21,7 @@ RUN \
   -e '/^ServerSignature/s/ .*$/ Off/' \
   /etc/apache2/conf-enabled/security.conf
 
-COPY entrypoint.sh /entrypoint.sh
-COPY dav.conf /etc/apache2/sites-enabled/000-default.conf
+COPY rootfs/ /
 
 EXPOSE 80/tcp
 
