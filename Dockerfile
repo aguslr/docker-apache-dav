@@ -2,24 +2,27 @@ ARG BASE_IMAGE=library/debian:stable-slim
 
 FROM docker.io/${BASE_IMAGE}
 
-RUN \
-  apt-get update && \
-  env DEBIAN_FRONTEND=noninteractive \
-  apt-get install -y --no-install-recommends apache2 apache2-utils curl \
-  -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /var/lib/apt/lists/*
+RUN <<-EOT bash
+	set -eu
 
-RUN \
-  mkdir -p /etc/apache2/dav.d && \
-  mkdir -p /var/lib/dav/lockdb && \
-  chown www-data:www-data /var/lib/dav/lockdb && \
-  sed -i \
-  '/^LogFormat/s/ "%h %l/ "%{X-Forwarded-For}i %l/' \
-  /etc/apache2/apache2.conf && \
-  sed -i \
-  -e '/^ServerTokens/s/ .*$/ Prod/' \
-  -e '/^ServerSignature/s/ .*$/ Off/' \
-  /etc/apache2/conf-enabled/security.conf
+	apt-get update
+	env DEBIAN_FRONTEND=noninteractive \
+		apt-get install -y --no-install-recommends apache2 apache2-utils curl \
+		-o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+	apt-get clean && rm -rf /var/lib/apt/lists/* /var/lib/apt/lists/*
+
+	mkdir -p /etc/apache2/dav.d
+	mkdir -p /var/lib/dav/lockdb
+	chown www-data:www-data /var/lib/dav/lockdb
+
+	sed -i \
+		'/^LogFormat/s/ "%h %l/ "%{X-Forwarded-For}i %l/' \
+		/etc/apache2/apache2.conf
+	sed -i \
+		-e '/^ServerTokens/s/ .*$/ Prod/' \
+		-e '/^ServerSignature/s/ .*$/ Off/' \
+		/etc/apache2/conf-enabled/security.conf
+EOT
 
 COPY rootfs/ /
 
